@@ -25,14 +25,33 @@ FROM habitant
 WHERE nom LIKE 'A%r%';
 
 --6. Numéros des habitants ayant bu les potions numéros 1, 3 ou 4. (8 lignes)
+SELECT DISTINCT num_hab
+FROM absorber
+WHERE num_potion IN (1, 3, 4);
 
 --7. Liste des trophées : numéro, date de prise, nom de la catégorie et nom du preneur. (10lignes)
+SELECT num_trophee, date_prise, code_cat, num_preneur
+FROM trophee;
 
 --8. Nom des habitants qui habitent à Aquilona. (7 lignes)
+SELECT nom
+FROM habitant
+JOIN village ON habitant.num_village = village.num_village
+WHERE nom_village = 'Aquilona';
 
 --9. Nom des habitants ayant pris des trophées de catégorie Bouclier de Légat. (2 lignes)
+SELECT nom
+FROM habitant
+JOIN trophee ON habitant.num_hab = trophee.num_preneur
+JOIN categorie ON trophee.code_cat = categorie.code_cat
+WHERE categorie.nom_categ = 'Bouclier de Légat';
 
 --10. Liste des potions (libellés) fabriquées par Panoramix : libellé, formule et constituantprincipal. (3 lignes)
+SELECT lib_potion
+FROM potion
+JOIN fabriquer ON potion.num_potion = fabriquer.num_potion
+JOIN habitant ON fabriquer.num_hab = habitant.num_hab
+WHERE nom = 'Panoramix';
 
 --11. Liste des potions (libellés) absorbées par Homéopatix. (2 lignes)
 
