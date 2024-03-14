@@ -126,16 +126,35 @@ SELECT MIN(date_prise)
 FROM trophee;
 
 --21. Nombre de louches de Potion magique n°2 (c'est le libellé de la potion) absorbées. (19)
+SELECT SUM(quantite)
+FROM absorber
+JOIN potion ON absorber.num_potion = potion.num_potion
+WHERE potion.lib_potion = 'Potion magique n°2';
 
 --22. Superficie la plus grande. (895)
+SELECT MAX(superficie)
+FROM resserre;
 
 --***
 
 --23. Nombre d'habitants par village (nom du village, nombre). (7 lignes)
+SELECT village.nom_village, COUNT(nom) AS nombre_habitant
+FROM habitant
+JOIN village ON habitant.num_village = village.num_village
+GROUP BY village.nom_village;
 
 --24. Nombre de trophées par habitant (6 lignes)
+SELECT DISTINCT nom, COUNT(nom) AS nombre_trophee
+FROM habitant
+JOIN trophee ON habitant.num_hab = trophee.num_preneur
+GROUP BY habitant.nom;
 
 --25. Moyenne d'âge des habitants par province (nom de province, calcul). (3 lignes)
+SELECT nom_province, AVG(age)
+FROM province
+JOIN village ON province.num_province = village.num_province
+JOIN habitant ON village.num_village = habitant.num_village
+GROUP BY nom_province;
 
 --26. Nombre de potions différentes absorbées par chaque habitant (nom et nombre). (9lignes)
 
