@@ -157,15 +157,43 @@ JOIN habitant ON village.num_village = habitant.num_village
 GROUP BY nom_province;
 
 --26. Nombre de potions différentes absorbées par chaque habitant (nom et nombre). (9lignes)
-
+SELECT DISTINCT nom, COUNT(nom) AS nombre_potion
+FROM habitant
+JOIN absorber ON habitant.num_hab = absorber.num_hab
+JOIN potion ON absorber.num_potion = potion.num_potion 
+GROUP BY habitant.nom;
 
 --27. Nom des habitants ayant bu plus de 2 louches de potion zen. (1 ligne)
-
+SELECT nom
+FROM habitant
+JOIN absorber ON habitant.num_hab = absorber.num_hab
+JOIN potion ON absorber.num_potion = potion.num_potion
+WHERE potion.lib_potion = 'Potion Zen' AND absorber.quantite > 2;
 
 --***
 --28. Noms des villages dans lesquels on trouve une resserre (3 lignes)
+SELECT nom_village
+FROM village
+JOIN resserre ON village.num_village = resserre.num_village
+GROUP BY village.num_village, village.nom_village
+HAVING COUNT(resserre.num_village) >= 1;
 
 --29. Nom du village contenant le plus grand nombre de huttes. (Gergovie)
+SELECT nom_village
+FROM village
+WHERE nb_huttes = (
+    SELECT MAX(nb_huttes)
+    FROM village
+);
 
 --30. Noms des habitants ayant pris plus de trophées qu'Obélix (3 lignes).
-
+SELECT nom
+FROM habitant
+JOIN trophee ON habitant.num_hab = trophee.num_preneur
+GROUP BY nom
+HAVING COUNT(nom) > (
+    SELECT COUNT(num_preneur)
+    FROM trophee
+    JOIN habitant ON trophee.num_preneur = habitant.num_hab
+    WHERE habitant.nom = 'Obélix'
+);
