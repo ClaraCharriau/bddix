@@ -1,12 +1,28 @@
 --1. Liste des potions : Numéro, libellé, formule et constituant principal. (5 lignes)
+SELECT *
+FROM potion;
 
 --2. Liste des noms des trophées rapportant 3 points. (2 lignes)
+SELECT nom_categ AS nom_du_trophee
+FROM categorie
+WHERE nb_points = 3;
 
 --3. Liste des villages (noms) contenant plus de 35 huttes. (4 lignes)
+SELECT nom_village
+FROM village
+WHERE nb_huttes > 35;
 
 --4. Liste des trophées (numéros) pris en mai / juin 52. (4 lignes)
+SELECT num_trophee
+FROM trophee
+WHERE date_prise
+BETWEEN '2052-05-01'
+AND '2052-06-30';
 
 --5. Noms des habitants commençant par 'a' et contenant la lettre 'r'. (3 lignes)
+SELECT nom
+FROM habitant
+WHERE nom LIKE 'A%r%';
 
 --6. Numéros des habitants ayant bu les potions numéros 1, 3 ou 4. (8 lignes)
 
