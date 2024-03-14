@@ -54,14 +54,47 @@ JOIN habitant ON fabriquer.num_hab = habitant.num_hab
 WHERE nom = 'Panoramix';
 
 --11. Liste des potions (libellés) absorbées par Homéopatix. (2 lignes)
+SELECT DISTINCT lib_potion
+FROM potion
+JOIN absorber ON potion.num_potion = absorber.num_potion
+JOIN habitant ON absorber.num_hab = habitant.num_hab
+WHERE nom = 'Homéopatix';
 
 --12. Liste des habitants (noms) ayant absorbé une potion fabriquée par l'habitant numéro 3. (4 lignes)
+SELECT DISTINCT nom
+FROM habitant
+JOIN absorber ON habitant.num_hab = absorber.num_hab
+JOIN fabriquer ON absorber.num_potion = fabriquer.num_potion
+WHERE fabriquer.num_hab = 3;
 
 --13. Liste des habitants (noms) ayant absorbé une potion fabriquée par Amnésix. (7 lignes)
+SELECT DISTINCT nom
+FROM habitant
+JOIN absorber ON habitant.num_hab = absorber.num_hab
+JOIN fabriquer ON absorber.num_potion = fabriquer.num_potion
+WHERE fabriquer.num_hab = (
+    SELECT num_hab
+    FROM habitant
+    WHERE nom = 'Amnésix'
+);
 
 --14. Nom des habitants dont la qualité n'est pas renseignée. (2 lignes)
+SELECT nom
+FROM habitant
+WHERE num_qualite IS NULL;
 
 --15. Nom des habitants ayant consommé la Potion magique n°1 (c'est le libellé de lapotion) en février 52. (3 lignes)
+SELECT nom
+FROM habitant
+JOIN absorber ON habitant.num_hab = absorber.num_hab
+JOIN potion ON absorber.num_potion = potion.num_potion
+WHERE absorber.date_a
+BETWEEN '2052-02-01'
+AND '2052-03-01' AND absorber.num_potion = (
+    SELECT num_potion
+    FROM potion
+    WHERE potion.lib_potion = 'Potion magique n°1' 
+);
 
 --16. Nom et âge des habitants par ordre alphabétique. (22 lignes)
 
