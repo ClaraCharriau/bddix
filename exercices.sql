@@ -97,16 +97,33 @@ AND '2052-03-01' AND absorber.num_potion = (
 );
 
 --16. Nom et âge des habitants par ordre alphabétique. (22 lignes)
+SELECT nom, age
+FROM habitant
+ORDER BY nom;
 
 --17. Liste des resserres classées de la plus grande à la plus petite : nom de resserre et nom du village. (3 lignes)
+SELECT resserre.nom_resserre, village.nom_village
+FROM resserre
+JOIN village ON resserre.num_village = village.num_village
+ORDER BY superficie DESC;
 
 --***
 
 --18. Nombre d'habitants du village numéro 5. (4)
+SELECT COUNT(nom)
+FROM habitant
+WHERE num_village = 5;
 
 --19. Nombre de points gagnés par Goudurix. (5)
+SELECT SUM(nb_points)
+FROM categorie
+JOIN trophee ON categorie.code_cat = trophee.code_cat
+JOIN habitant ON trophee.num_preneur = habitant.num_hab
+WHERE habitant.nom = 'Goudurix';
 
 --20. Date de première prise de trophée. (03/04/52)
+SELECT MIN(date_prise)
+FROM trophee;
 
 --21. Nombre de louches de Potion magique n°2 (c'est le libellé de la potion) absorbées. (19)
 
